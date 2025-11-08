@@ -1,298 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GeoBox Hub | Student Dashboard</title>
-  <style>
-    body {
-      background-color: #f8f5f1;
-      font-family: 'Poppins', sans-serif;
-      color: #2c2b28;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #3b2f2f;
-      color: #f5deb3;
-      text-align: center;
-      padding: 1rem;
-      font-size: 1.4rem;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    .quote {
-      text-align: center;
-      font-style: italic;
-      color: #5b4636;
-      margin: 10px 15px;
-      font-size: 0.95rem;
-    }
-
-    .container {
-      max-width: 850px;
-      margin: 30px auto;
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 25px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .section-title {
-      color: #3b2f2f;
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #d9c7b0;
-      padding-bottom: 5px;
-    }
-
-    .resource {
-      border: 1.5px solid #d9c7b0;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #fefaf6;
-      transition: transform 0.2s ease;
-    }
-
-    .resource:hover {
-      transform: scale(1.01);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-
-    .resource h3 {
-      color: #3b2f2f;
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    .resource p {
-      font-size: 0.9rem;
-      color: #5b4636;
-      margin: 8px 0;
-    }
-
-    .download-btn {
-      background-color: #5b4636;
-      color: #f5deb3;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .download-btn:hover {
-      background-color: #3b2f2f;
-      color: #fff2d6;
-    }
-
-    #loading {
-      text-align: center;
-      margin-top: 40px;
-      color: #5b4636;
-      font-weight: 500;
-    }
-
-    /* Upload form */
-    form {
-      margin-top: 20px;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-      color: #3b2f2f;
-      font-weight: 500;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1.5px solid #d9c7b0;
-      font-size: 0.95rem;
-      background-color: #fdfbf8;
-    }
-
-    input[type="file"] {
-      border: none;
-    }
-
-    button {
-      background-color: #5b4636;
-      color: #f5deb3;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 15px;
-      width: 100%;
-    }
-
-    button:hover {
-      background-color: #3b2f2f;
-      color: #fff2d6;
-    }
-
-    #message {
-      margin-top: 15px;
-      display: none;
-      padding: 8px;
-      border-radius: 5px;
-      font-weight: 500;
-    }
-
-    #message.success {
-      background: #d9c7b0;
-      color: #3b2f2f;
-    }
-
-    #message.error {
-      background: #e1b8b5;
-      color: #3b2f2f;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #3b2f2f;
-      font-size: 0.85rem;
-      padding-bottom: 15px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoBox Hub | Student Dashboard</title>
+<style>
+body { background-color: #f8f5f1; font-family:'Poppins', sans-serif; color:#2c2b28; margin:0; padding:0; }
+header { background-color:#3b2f2f; color:#f5deb3; text-align:center; padding:1rem; font-size:1.4rem; letter-spacing:0.5px; box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.quote { text-align:center; font-style:italic; color:#5b4636; margin:10px 15px; font-size:0.95rem;}
+.container { max-width:850px; margin:30px auto; background:#fff; border-radius:10px; padding:25px; box-shadow:0 4px 10px rgba(0,0,0,0.1); display:none;}
+.section-title { color:#3b2f2f; font-size:1.2rem; margin-bottom:15px; border-bottom:2px solid #d9c7b0; padding-bottom:5px;}
+.resource { border:1.5px solid #d9c7b0; border-radius:8px; padding:15px; margin-bottom:15px; background-color:#fefaf6; transition: transform 0.2s ease;}
+.resource:hover { transform:scale(1.01); box-shadow:0 3px 8px rgba(0,0,0,0.1);}
+.resource h3 { color:#3b2f2f; margin:0; font-size:1.1rem;}
+.resource p { font-size:0.9rem; color:#5b4636; margin:8px 0;}
+.download-btn { background-color:#5b4636; color:#f5deb3; border:none; padding:8px 16px; border-radius:5px; text-decoration:none; font-size:0.9rem; font-weight:500;}
+.download-btn:hover { background-color:#3b2f2f; color:#fff2d6;}
+#loading { text-align:center; margin-top:40px; color:#5b4636; font-weight:500;}
+form { margin-top:20px;}
+label { display:block; margin-top:10px; color:#3b2f2f; font-weight:500;}
+input,textarea { width:100%; padding:8px; margin-top:5px; border-radius:5px; border:1.5px solid #d9c7b0; font-size:0.95rem; background-color:#fdfbf8;}
+input[type="file"]{ border:none; }
+button { background-color:#5b4636; color:#f5deb3; border:none; padding:10px 18px; border-radius:5px; font-size:1rem; cursor:pointer; margin-top:15px; width:100%;}
+button:hover { background-color:#3b2f2f; color:#fff2d6;}
+#message { margin-top:15px; display:none; padding:8px; border-radius:5px; font-weight:500;}
+#message.success { background:#d9c7b0; color:#3b2f2f;}
+#message.error { background:#e1b8b5; color:#3b2f2f;}
+footer { text-align:center; margin-top:40px; color:#3b2f2f; font-size:0.85rem; padding-bottom:15px;}
+#passkeyOverlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:9999;}
+#passkeyBox { background:#fff8f0; padding:30px; border-radius:10px; width:90%; max-width:400px; text-align:center;}
+#passkeyBox input { margin-top:15px; padding:10px; width:80%; font-size:1rem; border-radius:5px; border:1.5px solid #d9c7b0;}
+#passkeyBox button { margin-top:15px; width:50%;}
+#passkeyMessage { margin-top:10px; color:red; font-weight:500;}
+</style>
 </head>
-
 <body>
-  <header>GeoBox Hub — Student Dashboard</header>
-  <p class="quote">“A wise man once said ‘Resources are not, they become.’ So wisely let these materials become resources for your academic success.”</p>
 
-  <div class="container">
-    <h2 class="section-title">📚 Available Learning Resources</h2>
-    <div id="resourceList">
-      <p id="loading">Loading available resources...</p>
-    </div>
+<header>GeoBox Hub — Student Dashboard</header>
+<p class="quote">“A wise man once said ‘Resources are not, they become.’ So wisely let these materials become resources for your academic success.” — <b>OJOE</b></p>
 
-    <h2 class="section-title">📝 Submit Assignment / Ask Questions</h2>
-    <form id="uploadForm">
-      <label for="studentName">Your Name</label>
-      <input type="text" id="studentName" placeholder="Enter your full name" required>
-
-      <label for="studentEmail">Email</label>
-      <input type="email" id="studentEmail" placeholder="Enter your email" required>
-
-      <label for="messageText">Comment / Question / Description</label>
-      <textarea id="messageText" rows="3" placeholder="Write your comment or assignment note..." required></textarea>
-
-      <label for="fileInput">Upload File (optional)</label>
-      <input type="file" id="fileInput" accept=".pdf,.docx,.pptx,.jpg,.png,.mp4,.mp3">
-
-      <button type="submit">Send to Teacher</button>
-    </form>
-    <div id="message"></div>
+<!-- Passkey -->
+<div id="passkeyOverlay">
+  <div id="passkeyBox">
+    <h3>Enter Student Passkey</h3>
+    <input type="password" id="passkeyInput" placeholder="Enter your passkey"><br>
+    <button id="passkeyBtn">Enter</button>
+    <p id="passkeyMessage"></p>
   </div>
+</div>
 
-  <footer>© 2025 GeoBox Hub | Student Portal</footer>
+<div class="container" id="studentDashboard">
+  <h2 class="section-title">📚 Available Learning Resources</h2>
+  <div id="resourceList"><p id="loading">Loading available resources...</p></div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <h2 class="section-title">📝 Submit Assignment / Ask Questions</h2>
+  <form id="uploadForm">
+    <label for="studentName">Your Name</label>
+    <input type="text" id="studentName" placeholder="Enter your full name" required>
+    <label for="studentEmail">Email</label>
+    <input type="email" id="studentEmail" placeholder="Enter your email" required>
+    <label for="messageText">Comment / Question / Assignment</label>
+    <textarea id="messageText" rows="3" placeholder="Write your comment or assignment note..." required></textarea>
+    <label for="fileInput">Upload File (optional)</label>
+    <input type="file" id="fileInput" accept=".pdf,.docx,.pptx,.jpg,.png,.mp4,.mp3">
+    <button type="submit">Send to Teacher</button>
+  </form>
+  <div id="message"></div>
+</div>
 
-  <script>
-    // ✅ Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAdkh45QHawe-JGpg-arY1lsdlrFohI4-I",
-      authDomain: "geobox-hub.firebaseapp.com",
-      projectId: "geobox-hub",
-      storageBucket: "geobox-hub.firebasestorage.app",
-      messagingSenderId: "757137199567",
-      appId: "1:757137199567:web:0b0fc9d49ef212948782ba"
-    };
+<footer>© 2025 GeoBox Hub | Student Portal</footer>
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-    const resourceList = document.getElementById('resourceList');
-    const loadingText = document.getElementById('loading');
-    const form = document.getElementById('uploadForm');
-    const messageDiv = document.getElementById('message');
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAdkh45QHawe-JGpg-arY1lsdlrFohI4-I",
+  authDomain: "geobox-hub.firebaseapp.com",
+  projectId: "geobox-hub",
+  storageBucket: "geobox-hub.firebasestorage.app",
+  messagingSenderId: "757137199567",
+  appId: "1:757137199567:web:0b0fc9d49ef212948782ba"
+};
 
-    // 🧠 Load teacher resources
-    async function loadResources() {
-      try {
-        const snapshot = await db.collection('teacher_resources').orderBy('timestamp', 'desc').get();
-        loadingText.style.display = 'none';
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-        if (snapshot.empty) {
-          resourceList.innerHTML = "<p style='text-align:center; color:#5b4636;'>No resources available yet. Check back soon!</p>";
-          return;
-        }
+// Elements
+const resourceList = document.getElementById('resourceList');
+const loadingText = document.getElementById('loading');
+const form = document.getElementById('uploadForm');
+const messageDiv = document.getElementById('message');
+const studentDashboard = document.getElementById('studentDashboard');
+const passkeyOverlay = document.getElementById('passkeyOverlay');
+const passkeyInput = document.getElementById('passkeyInput');
+const passkeyBtn = document.getElementById('passkeyBtn');
+const passkeyMessage = document.getElementById('passkeyMessage');
 
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const div = document.createElement('div');
-          div.classList.add('resource');
-          div.innerHTML = `
-            <h3>${data.subject}</h3>
-            <p>${data.description}</p>
-            <a href="${data.fileURL}" target="_blank" class="download-btn">Download Resource</a>
-          `;
-          resourceList.appendChild(div);
-        });
-      } catch (error) {
-        console.error(error);
-        loadingText.textContent = "Error loading resources. Try again.";
-      }
-    }
-
-    // 📤 Upload assignment or question
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('studentName').value.trim();
-      const email = document.getElementById('studentEmail').value.trim();
-      const text = document.getElementById('messageText').value.trim();
-      const file = document.getElementById('fileInput').files[0];
-
-      try {
-        let fileURL = null;
-
-        if (file) {
-          const fileRef = storage.ref(`student_uploads/${Date.now()}_${file.name}`);
-          const snapshot = await fileRef.put(file);
-          fileURL = await snapshot.ref.getDownloadURL();
-        }
-
-        await db.collection('student_submissions').add({
-          name,
-          email,
-          text,
-          fileURL,
-          timestamp: new Date().toISOString()
-        });
-
-        showMessage('✅ Submission sent successfully!', 'success');
-        form.reset();
-      } catch (err) {
-        console.error(err);
-        showMessage('❌ Error sending submission.', 'error');
-      }
-    });
-
-    function showMessage(text, type) {
-      messageDiv.textContent = text;
-      messageDiv.className = type;
-      messageDiv.style.display = 'block';
-    }
-
+// Student passkey
+const STUDENT_PASSKEY = "geoboxstudent2025"; // change if needed
+passkeyBtn.addEventListener('click', () => {
+  if(passkeyInput.value===STUDENT_PASSKEY){
+    passkeyOverlay.style.display='none';
+    studentDashboard.style.display='block';
     loadResources();
-  </script>
+  }else{
+    passkeyMessage.textContent="Incorrect passkey!";
+  }
+});
+
+// Load resources
+async function loadResources(){
+  try{
+    const q = query(collection(db,'teacher_resources'), orderBy('timestamp','desc'));
+    const snapshot = await getDocs(q);
+    loadingText.style.display='none';
+    if(snapshot.empty){
+      resourceList.innerHTML="<p style='text-align:center; color:#5b4636;'>No resources available yet.</p>";
+      return;
+    }
+    snapshot.forEach(doc=>{
+      const data = doc.data();
+      const div = document.createElement('div');
+      div.classList.add('resource');
+      div.innerHTML=`
+        <h3>${data.subject}</h3>
+        <p>${data.description}</p>
+        <a href="${data.fileURL}" target="_blank" class="download-btn">Download Resource</a>
+      `;
+      resourceList.appendChild(div);
+    });
+  }catch(err){ console.error(err); loadingText.textContent="Error loading resources.";}
+}
+
+// Submit assignment/question
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name=document.getElementById('studentName').value.trim();
+  const email=document.getElementById('studentEmail').value.trim();
+  const text=document.getElementById('messageText').value.trim();
+  const file=document.getElementById('fileInput').files[0];
+  try{
+    let fileURL=null;
+    if(file){
+      const fileRef=ref(storage,`student_uploads/${Date.now()}_${file.name}`);
+      const snapshot = await uploadBytes(fileRef,file);
+      fileURL = await getDownloadURL(snapshot.ref);
+    }
+    await addDoc(collection(db,'student_submissions'),{name,email,text,fileURL,timestamp:new Date().toISOString()});
+    messageDiv.textContent='✅ Submission sent successfully!';
+    messageDiv.className='success';
+    messageDiv.style.display='block';
+    form.reset();
+  }catch(err){
+    console.error(err);
+    messageDiv.textContent='❌ Error sending submission.';
+    messageDiv.className='error';
+    messageDiv.style.display='block';
+  }
+});
+</script>
 </body>
 </html>
