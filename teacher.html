@@ -37,6 +37,61 @@
       <input type="file" />
       <button type="submit">Upload</button>
     </form>
-  </div>
+  </<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
+
+<script>
+  // 🔥 Your Firebase configuration
+  const firebaseConfig = {
+    // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAdkh45QHawe-JGpg-arY1lsdlrFohI4-I",
+  authDomain: "geobox-hub.firebaseapp.com",
+  projectId: "geobox-hub",
+  storageBucket: "geobox-hub.firebasestorage.app",
+  messagingSenderId: "757137199567",
+  appId: "1:757137199567:web:0b0fc9d49ef212948782ba"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const storage = firebase.storage();
+
+  // File Upload Logic
+  const form = document.querySelector("form");
+  const fileInput = document.querySelector('input[type="file"]');
+  const titleInput = document.querySelector('input[type="text"]');
+  const descInput = document.querySelector('textarea');
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const file = fileInput.files[0];
+    if (!file) return alert("Please select a file!");
+
+    const storageRef = storage.ref("teacher_uploads/" + file.name);
+    const uploadTask = storageRef.put(file);
+
+    uploadTask.on(
+      "state_changed",
+      null,
+      (error) => alert("❌ Upload failed: " + error.message),
+      () => {
+        alert("✅ Upload successful!");
+        form.reset();
+      }
+    );
+  });
+</script>div>
 </body>
 </html>
