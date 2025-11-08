@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard | GeoBox Hub</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f2f5f8; margin:0; color:#333; }
+    header { background:#003366; color:#fff; text-align:center; padding:15px; }
+    nav { background:#002244; text-align:center; padding:10px; }
+    nav a { color:#fff; text-decoration:none; margin:0 15px; }
+    nav a:hover { text-decoration:underline; }
+    .container { max-width:700px; margin:40px auto; background:white; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    input, textarea { width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:5px; }
+    button { background:#003366; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#001a44; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Teacher Dashboard</h1>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="teacher.html">Upload Resource</a>
+    <a href="student.html">Student Area</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="container">
+    <h2>Upload Teaching Resources</h2>
+    <form>
+      <label>Resource Title:</label>
+      <input type="text" placeholder="Enter title" required />
+      <label>Description:</label>
+      <textarea placeholder="Brief description"></textarea>
+      <label>Choose File:</label>
+      <input type="file" />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+</body>
+</html>
