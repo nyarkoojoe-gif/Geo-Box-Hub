@@ -1,12 +1,139 @@
-<!-- Firebase Scripts (v10+) -->
-<script type="module">
-  // Import Firebase SDKs
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoBox Hub | Resources Dashboard</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f4f7f5;
+      margin: 0;
+      padding: 0;
+    }
 
-  // 🔥 Your Firebase configuration
-  const firebaseConfig = {
-    // Import the functions you need from the SDKs you need
+    header {
+      background-color: #1c6b4a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .dashboard {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1c6b4a;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      width: 70%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .resource-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .resource-card:hover {
+      transform: scale(1.03);
+    }
+
+    .resource-card h3 {
+      color: #1c6b4a;
+    }
+
+    .resource-card p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background-color: #1c6b4a;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .download-btn:hover {
+      background-color: #145537;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #1c6b4a;
+      color: white;
+      padding: 10px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>GeoBox Hub — Learning Resources</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="dashboard">
+    <h2>Interactive Resource Dashboard</h2>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by subject or topic...">
+    </div>
+
+    <div id="resourcesGrid" class="resources-grid">
+      <p>Loading resources...</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 GeoBox Hub | Resource Dashboard</p>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+
+  <script>
+    // 🔧 Your Firebase configuration
+    const firebaseConfig = {
+      // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,33 +150,58 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-  // Form logic
-  const form = document.querySelector("form");
-  const fileInput = document.querySelector('input[type="file"]');
-  const titleInput = document.querySelector('input[type="text"]');
-  const descInput = document.querySelector('textarea');
+    const grid = document.getElementById("resourcesGrid");
+    const searchInput = document.getElementById("searchInput");
+    let resourcesData = [];
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    // Load all resources from Firestore
+    db.collection("teacher_resources")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        resourcesData = [];
+        grid.innerHTML = "";
+        if (snapshot.empty) {
+          grid.innerHTML = "<p>No resources available yet.</p>";
+          return;
+        }
 
-    const file = fileInput.files[0];
-    if (!file) {
-      alert("Please select a file!");
-      return;
+        snapshot.forEach((doc) => {
+          resourcesData.push(doc.data());
+        });
+
+        renderResources(resourcesData);
+      });
+
+    // Render function
+    function renderResources(data) {
+      grid.innerHTML = "";
+      data.forEach((item) => {
+        const card = document.createElement("div");
+        card.classList.add("resource-card");
+        card.innerHTML = `
+          <h3>${item.subject}</h3>
+          <p>${item.description}</p>
+          <a href="${item.fileURL}" class="download-btn" target="_blank">📥 Download</a>
+        `;
+        grid.appendChild(card);
+      });
     }
 
-    try {
-      const storageRef = ref(storage, "teacher_uploads/" + file.name);
-      await uploadBytes(storageRef, file);
-      alert("✅ Upload successful!");
-      form.reset();
-    } catch (error) {
-      alert("❌ Upload failed: " + error.message);
-    }
-  });
-</script>
+    // Search functionality
+    searchInput.addEventListener("input", (e) => {
+      const value = e.target.value.toLowerCase();
+      const filtered = resourcesData.filter((r) =>
+        r.subject.toLowerCase().includes(value) ||
+        r.description.toLowerCase().includes(value)
+      );
+      renderResources(filtered);
+    });
+  </script>
+</body>
+</html>
