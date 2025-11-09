@@ -6,59 +6,177 @@
   <title>Teacher Portal | GeoBox Hub</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fa;
-      padding: 40px;
-      color: #333;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e8f5e9, #fffde7);
+      margin: 0;
+      padding: 0;
+      color: #3e2723;
     }
-    h1 {
-      color: #004080;
-      text-align: center;
-    }
-    form {
-      background: white;
+
+    header {
+      background: #4caf50;
+      color: white;
       padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: 30px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: #fffde7;
+    }
+
+    .hero img {
+      max-width: 380px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      margin: 10px;
+    }
+
+    .hero-text {
+      max-width: 500px;
+      margin: 20px;
+    }
+
+    .hero-text h2 {
+      color: #2e7d32;
+      font-size: 1.8em;
+      margin-bottom: 15px;
+    }
+
+    .hero-text p {
+      font-size: 1.1em;
+      color: #4e342e;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 40px auto;
+      display: none;
+    }
+
     input, textarea, button {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
+      padding: 12px;
+      margin: 10px 0;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 1em;
     }
+
     button {
-      background: #004080;
+      background: #6d4c41;
       color: white;
-      font-weight: bold;
+      border: none;
       cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
     }
+
     button:hover {
-      background: #0066cc;
+      background: #4e342e;
     }
+
     #uploadedFiles {
-      margin-top: 30px;
+      margin: 30px auto;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      text-align: center;
+      display: none;
     }
+
     #uploadedFiles a {
       display: block;
       padding: 8px;
-      background: #eaf3ff;
+      margin: 5px;
+      background: #c8e6c9;
       border-radius: 4px;
-      margin: 5px 0;
       text-decoration: none;
-      color: #004080;
+      color: #2e7d32;
+      font-weight: 500;
+    }
+
+    footer {
+      background: #4e342e;
+      color: #fff8e1;
+      padding: 15px;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #5d4037;
+      text-align: center;
+      margin: 20px auto;
+      font-size: 1.1em;
+      max-width: 700px;
+    }
+
+    .passkey-box {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .passkey-box input {
+      width: 250px;
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .passkey-box button {
+      background: #388e3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 8px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .passkey-box button:hover {
+      background: #2e7d32;
     }
   </style>
 </head>
-<body>
 
-  <h1>Teacher Upload Portal</h1>
+<body>
+  <header>GeoBox Hub — Teacher Upload Portal</header>
+
+  <section class="hero">
+    <img src="https://img.freepik.com/free-photo/teacher-classroom.jpg" alt="Teacher Image">
+    <div class="hero-text">
+      <h2>Welcome to the Teacher Resource Center</h2>
+      <p>
+        Inspire, share, and empower your students through impactful learning materials. 
+        Upload your teaching resources and help shape minds that shape the future.
+      </p>
+    </div>
+  </section>
+
+  <p class="quote">
+    “The resources that helps the mind and the behavior of a student or a learner is a game changer.”  
+    <br>— <b>Ojoe</b>
+  </p>
+
+  <div class="passkey-box" id="passkeySection">
+    <p><b>Teacher Access Only:</b> Please enter your passkey to continue.</p>
+    <input type="password" id="passkeyInput" placeholder="Enter passkey...">
+    <button onclick="verifyPasskey()">Enter</button>
+  </div>
+
   <form id="uploadForm">
     <label>Title of Resource</label>
     <input type="text" placeholder="Enter title..." required>
@@ -74,22 +192,39 @@
 
   <div id="uploadedFiles"></div>
 
+  <footer>
+    © 2025 GeoBox Hub | Empowering Minds Through Knowledge
+  </footer>
+
   <script>
     const form = document.querySelector("#uploadForm");
-    const fileInput = document.querySelector('input[type="file"]');
     const uploadedFiles = document.getElementById("uploadedFiles");
+    const passkeyInput = document.getElementById("passkeyInput");
+    const passkeySection = document.getElementById("passkeySection");
 
+    // 🔐 Passkey verification
+    function verifyPasskey() {
+      const enteredKey = passkeyInput.value.trim().toLowerCase();
+      if (enteredKey === "great teacher") {
+        passkeySection.style.display = "none";
+        form.style.display = "block";
+        uploadedFiles.style.display = "block";
+      } else {
+        alert("❌ Incorrect passkey! Access denied.");
+        passkeyInput.value = "";
+      }
+    }
+
+    // ✅ Upload function
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const file = fileInput.files[0];
+      const file = form.querySelector('input[type="file"]').files[0];
       if (!file) {
         alert("Please choose a file to upload!");
         return;
       }
 
-      // ✅ Uploadcare public key
       const UPLOADCARE_KEY = "fa3459300e29706b4f0f";
-
       const formData = new FormData();
       formData.append("UPLOADCARE_PUB_KEY", UPLOADCARE_KEY);
       formData.append("file", file);
@@ -104,7 +239,6 @@
 
         alert("✅ Upload successful!");
 
-        // Display the uploaded file link
         const link = document.createElement("a");
         link.href = fileUrl;
         link.target = "_blank";
@@ -117,6 +251,5 @@
       }
     });
   </script>
-
 </body>
 </html>
